@@ -21,7 +21,7 @@ services:
       - "mysql-data:/var/lib/mysql"
     environment:
       MYSQL_DATABASE: scanner_code_blog
-      MYSQL_USER: root
+      MYSQL_USER: user
       MYSQL_PASSWORD: Alexis2012
       MYSQL_ROOT_PASSWORD: Alexis2012
 volumes:
