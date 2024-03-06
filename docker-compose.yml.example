@@ -6,24 +6,24 @@ services:
       context: ./
       dockerfile: dockerfiles/nodejs/Dockerfile
     ports:
-      - "3000:3000"
+      - "22562:3000"
     volumes:
       - .:/app
     depends_on:
       - mysql
   mysql:
-    build: ./dockerfiles/mysql
+    build:
+      context: ./
+      dockerfile: dockerfiles/mysql/Dockerfile
     ports:
       - "3307:3306"
     volumes:
       - "mysql-data:/var/lib/mysql"
     environment:
-
-      MYSQL_DATABASE : scanner_code_blog
+      MYSQL_DATABASE: scanner_code_blog
       MYSQL_USER: root
       MYSQL_PASSWORD: Alexis2012
       MYSQL_ROOT_PASSWORD: Alexis2012
-
 volumes:
   mysql-data:
     driver: "local"

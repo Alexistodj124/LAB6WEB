@@ -1,4 +1,5 @@
-FROM mysql:latest
+FROM mysql:8
 
-COPY schema.sql /docker-entrypoint-initdb.d/
+COPY schema.sql /docker-entrypoint-initdb.d/schema.sql
 
+CMD ["mysqld"]
