@@ -16,7 +16,7 @@ services:
       context: ./
       dockerfile: dockerfiles/mysql/Dockerfile
     ports:
-      - "3307:3306"
+      - "3369:3306"
     volumes:
       - "mysql-data:/var/lib/mysql"
     environment:
