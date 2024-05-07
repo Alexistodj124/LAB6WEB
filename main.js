@@ -2,6 +2,7 @@ import express from 'express'
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import cors from 'cors';
+import { auth } from './db.js';
 
 
 const app = express()
@@ -256,15 +257,32 @@ app.delete('/posts/:postId', async (req, res) => {
 
 
 app.post('/register', async (req, res) => {
-    const { username, password } = req.body;
+    const { username, contrasenia } = req.body;
     try {
-      if (!user || !passw) {
+      if (!username || !contrasenia) {
         return res.status(400).json({ error: 'Se requieren el nombre de usuario y la contraseña' });
       }
-      const userId = await createUser(username, password);
+      const userId = await createUser(username, contrasenia);
       res.status(201).json({ id: userId, message: 'Usuario creado correctamente' });
     } catch (error) {
       console.error('Error al crear el usuario:', error);
       res.status(500).json({ error: 'Error interno del servidor' });
     }
+  });
+
+  app.post('/authe', async (req, res) => {
+    const { username, contrasenia } = req.body;
+    //console.log(user)
+    //console.log(passw)
+    try {
+      const isAuth = await auth(username, contrasenia);
+      if (isAuth) {
+        res.status(200).json({ message: 'Autenticación exitosa' });
+      } else {
+        res.status(401).json({ error: 'Nombre de usuario o contraseña incorrectos' });
+      }
+    } catch (error) {
+      console.error('Error al autenticar el usuario:', error);
+      res.status(500).json({ error: 'Error interno del servidor' });
+    }
   });

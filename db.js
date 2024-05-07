@@ -1,4 +1,5 @@
 import conn from './conn.js'
+import pool from './conn.js'
 
 export async function getAllPosts() {
  const [rows] = await conn.query('SELECT * FROM blog_posts')
@@ -50,3 +51,20 @@ export async function createUser(username,contrasenia) {
     return result
 }
 
+export async function auth(user, passw) {
+    const connection = await pool.getConnection();
+    console.log(user)
+    console.log(passw)
+    try {
+      const [rows] = await connection.query(
+        'SELECT * FROM users WHERE username = ? AND contrasenia = ?',
+        [user, passw]
+      );
+      return rows.length > 0; // Si hay al menos un usuario con ese nombre de usuario y contraseña, la autenticación es exitosa
+    } catch (error) {
+      console.error('Error al autenticar el usuario:', error);
+      throw error;
+    } finally {
+      connection.release();
+    }
+  }
