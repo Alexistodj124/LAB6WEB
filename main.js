@@ -1,8 +1,11 @@
 import express from 'express'
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
+import cors from 'cors';
+
 
 const app = express()
+app.use(cors())
 const port = 3000
 app.listen(port, () => {
     console.log(`Server listening at http://127.0.0.1:${port}`)
@@ -32,7 +35,7 @@ app.get('/', (req, res) => {
 
 
 
-import { getAllPosts, getPostById, createPost, updatePost, deletePost} from './db.js'
+import { getAllPosts, getPostById, createPost, updatePost, deletePost, getAllUsers, createUser} from './db.js'
 
 app.use(express.json())
 
@@ -250,3 +253,18 @@ app.delete('/posts/:postId', async (req, res) => {
         res.status(404).json({ error: 'Post not found' })
     }
 })
+
+
+app.post('/register', async (req, res) => {
+    const { username, password } = req.body;
+    try {
+      if (!user || !passw) {
+        return res.status(400).json({ error: 'Se requieren el nombre de usuario y la contraseña' });
+      }
+      const userId = await createUser(username, password);
+      res.status(201).json({ id: userId, message: 'Usuario creado correctamente' });
+    } catch (error) {
+      console.error('Error al crear el usuario:', error);
+      res.status(500).json({ error: 'Error interno del servidor' });
+    }
+  });

@@ -9,3 +9,9 @@ CREATE TABLE IF NOT EXISTS blog_posts (
     desc_error TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(30) UNIQUE NOT NULL,
+    contrasenia VARCHAR(64) NOT NULL
+);

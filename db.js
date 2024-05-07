@@ -39,3 +39,14 @@ export async function deletePost(postId) {
     }
 }
 
+export async function getAllUsers() {
+    const [rows] = await conn.query('SELECT * FROM users')
+    return rows
+   }
+
+
+export async function createUser(username,contrasenia) {
+    const [result] = await conn.query('INSERT INTO users (username,contrasenia) VALUES (?, ?)', [username,contrasenia])
+    return result
+}
+
